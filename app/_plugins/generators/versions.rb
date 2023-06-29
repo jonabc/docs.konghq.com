@@ -176,6 +176,9 @@ module Jekyll
           page.data['version'] = current['version']
         end
 
+        # Add a `major_minor_version` property which is used for cloudsmith install pages
+        page.data['major_minor_version'] = page.data['release'].gsub('.x', '').gsub('.', '') if page.data['release']
+
         # Clean up nav_items for generated pages as there's an
         # additional level of nesting
         page.data['nav_items'] = page.data['nav_items']['items'] if page.data['nav_items'].is_a?(Hash)
