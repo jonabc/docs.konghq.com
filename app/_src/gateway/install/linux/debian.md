@@ -31,12 +31,12 @@ Install {{site.base_gateway}} on Debian from the command line.
 {% navtabs_ee codeblock %}
 {% navtab Kong Gateway %}
 ```bash
-curl -Lo kong-enterprise-edition-{{page.versions.ee}}.all.deb "{{ site.links.download }}/gateway-3.x-debian-$(lsb_release -cs)/pool/all/k/kong-enterprise-edition/kong-enterprise-edition_{{page.versions.ee}}_amd64.deb"
+curl -Lo kong-enterprise-edition-{{page.versions.ee}}.amd64.deb "https://packages.konghq.com/public/gateway-{{ page.major_minor_version }}/deb/ubuntu/pool/bionic/main/k/ko/kong-enterprise-edition_{{page.versions.ee}}/kong-enterprise-edition_{{page.versions.ee}}_amd64.deb"
 ```
 {% endnavtab %}
 {% navtab Kong Gateway (OSS) %}
 ```bash
-curl -Lo kong-{{page.versions.ce}}.amd64.deb "{{ site.links.download }}/gateway-3.x-debian-$(lsb_release -cs)/pool/all/k/kong/kong_{{page.versions.ce}}_amd64.deb"
+curl -Lo kong-{{page.versions.ce}}.amd64.deb "https://packages.konghq.com/public/gateway-{{ page.major_minor_version }}/deb/ubuntu/pool/bionic/main/k/ko/kong_{{page.versions.ce}}/kong_{{page.versions.ce}}_amd64.deb"
 ```
 {% endnavtab %}
 {% endnavtabs_ee %}
@@ -78,11 +78,16 @@ sudo dpkg -i kong-{{page.versions.ce}}.amd64.deb
 {% navtab APT repository %}
 
 Install the APT repository from the command line.
+ 
+{% assign gpg_key = site.data.installation.gateway[page.major_minor_version].gpg_key  %}
+{% unless gpg_key %}
+{% assign gpg_key = site.data.installation.gateway.legacy.gpg_key  %}
+{% endunless %}
 
 1. Download the Kong APT repository:
     ```bash
-    echo "deb [trusted=yes] {{ site.links.download }}/gateway-3.x-debian-$(lsb_release -sc)/ \
-    default all" | sudo tee /etc/apt/sources.list.d/kong.list
+    curl -1sLf "https://packages.konghq.com/public/gateway-{{ page.major_minor_version }}/gpg.{{ gpg_key }}.key" |  gpg --dearmor >> /usr/share/keyrings/kong-gateway-{{ page.major_minor_version }}-archive-keyring.gpg
+    curl -1sLf "https://packages.konghq.com/public/gateway-{{ page.major_minor_version }}/config.deb.txt?distro=ubuntu&codename=$(lsb_release -sc)" > /etc/apt/sources.list.d/kong-gateway-{{ page.major_minor_version }}.list
     ```
 2. Update the repository:
     ```bash

@@ -50,12 +50,12 @@ curl -Lo kong-{{page.versions.ce}}.rpm $(rpm --eval https://packages.konghq.com/
 {% navtabs_ee codeblock %}
 {% navtab Kong Gateway %}
 ```bash
-sudo yum install kong-enterprise-edition-{{page.versions.ee}}.rpm
+sudo yum install -y kong-enterprise-edition-{{page.versions.ee}}.rpm
 ```
 {% endnavtab %}
 {% navtab Kong Gateway (OSS) %}
 ```bash
-sudo yum install kong-{{page.versions.ce}}.rpm
+sudo yum install -y kong-{{page.versions.ce}}.rpm
 ```
 {% endnavtab %}
 {% endnavtabs_ee %}
@@ -81,14 +81,8 @@ rpm -iv kong-{{page.versions.ce}}.rpm
 
 Install the YUM repository from the command line.
 
-{% assign gpg_key = site.data.installation.gateway[page.major_minor_version].gpg_key  %}
-{% unless gpg_key %}
-{% assign gpg_key = site.data.installation.gateway.legacy.gpg_key  %}
-{% endunless %}
-
 1. Download the Kong YUM repository:
     ```bash
-    sudo rpm --import 'https://packages.konghq.com/public/gateway-{{ page.major_minor_version }}/gpg.{{ gpg_key }}.key'
     curl -1sLf "https://packages.konghq.com/public/gateway-{{ page.major_minor_version }}/config.rpm.txt?distro=el&codename=$(rpm --eval '%{rhel}')" | sudo tee /etc/yum.repos.d/kong-gateway-{{ page.major_minor_version }}.repo
     sudo yum -q makecache -y --disablerepo='*' --enablerepo='kong-gateway-{{ page.major_minor_version }}'
     ```
