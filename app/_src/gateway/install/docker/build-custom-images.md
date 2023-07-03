@@ -17,11 +17,11 @@ chmod +x docker-entrypoint.sh
 ```
 
 1. Download the {{site.base_gateway}} package:
-    * **Debian and Ubuntu**: [.deb](https://packages.konghq.com/public/gateway-{{ page.major_minor_version }}/deb/ubuntu/pool/bionic/main/k/ko/kong-enterprise-edition_{{page.versions.ee}}/kong-enterprise-edition_{{page.versions.ee}}_amd64.deb).
-    * **Alpine**: [.apk](https://packages.konghq.com/public/gateway-{{ page.major_minor_version }}/alpine/any-version/main/x86_64/kong-enterprise-edition-{{page.versions.ee}}.apk)
+    * **Debian and Ubuntu**: [.deb]({{ site.links.cloudsmith }}/public/gateway-{{ page.major_minor_version }}/deb/ubuntu/pool/bionic/main/k/ko/kong-enterprise-edition_{{page.versions.ee}}/kong-enterprise-edition_{{page.versions.ee}}_amd64.deb).
+    * **Alpine**: [.apk]({{ site.links.cloudsmith }}/public/gateway-{{ page.major_minor_version }}/alpine/any-version/main/x86_64/kong-enterprise-edition-{{page.versions.ee}}.apk)
     * 
-    {% if_version eq:3.0.x %} **RHEL**:[ .rpm](https://packages.konghq.com/public/gateway-{{ page.major_minor_version }}/rpm/el/8/x86_64/kong-enterprise-edition-{{page.versions.ee}}.rhel8.6.amd64.rpm){% endif_version %}
-    {% if_version gte:3.1.x %} **RHEL**:[ .rpm](https://packages.konghq.com/public/gateway-{{ page.major_minor_version }}/rpm/el/8/x86_64/kong-enterprise-edition-{{page.versions.ee}}.rhel8.amd64.rpm){% endif_version %}
+    {% if_version eq:3.0.x %} **RHEL**:[ .rpm]({{ site.links.cloudsmith }}/public/gateway-{{ page.major_minor_version }}/rpm/el/8/x86_64/kong-enterprise-edition-{{page.versions.ee}}.rhel8.6.amd64.rpm){% endif_version %}
+    {% if_version gte:3.1.x %} **RHEL**:[ .rpm]({{ site.links.cloudsmith }}/public/gateway-{{ page.major_minor_version }}/rpm/el/8/x86_64/kong-enterprise-edition-{{page.versions.ee}}.rhel8.amd64.rpm){% endif_version %}
 
 
 1. Create a `Dockerfile`, ensuring you replace the filename by the first `COPY` with the name of the {{site.base_gateway}} file you downloaded in step 2:
