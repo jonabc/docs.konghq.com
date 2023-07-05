@@ -18,7 +18,16 @@ chmod +x docker-entrypoint.sh
 
 1. Download the {{site.base_gateway}} package:
     * **Debian and Ubuntu**: [.deb]({{ site.links.cloudsmith }}/public/gateway-{{ page.major_minor_version }}/deb/ubuntu/pool/bionic/main/k/ko/kong-enterprise-edition_{{page.versions.ee}}/kong-enterprise-edition_{{page.versions.ee}}_amd64.deb).
+    {% comment %}
+    not all of the older alpine "packages" met Cloudsmith's definition for what an alpine package must be
+    so some are uploaded there as "raw" artifacts instead and must be linked to differently
+    {% endcomment %}
+    {% if_version eq:3.0.x %}
+    * **Alpine**: [.apk]({{ site.links.cloudsmith }}/public/gateway-{{ page.major_minor_version }}/raw/names/kong-enterprise-edition-amd64/versions/{{page.versions.ee}}/kong-enterprise-edition-{{page.versions.ee}}.amd64.apk.tar.gz)
+    {% endif_version %}
+    {% if_version lt:3.0.x gte:3.1.x %}
     * **Alpine**: [.apk]({{ site.links.cloudsmith }}/public/gateway-{{ page.major_minor_version }}/alpine/any-version/main/x86_64/kong-enterprise-edition-{{page.versions.ee}}.apk)
+    {% endif_version %}
     * 
     {% if_version eq:3.0.x %} **RHEL**:[ .rpm]({{ site.links.cloudsmith }}/public/gateway-{{ page.major_minor_version }}/rpm/el/8/x86_64/kong-enterprise-edition-{{page.versions.ee}}.rhel8.6.amd64.rpm){% endif_version %}
     {% if_version gte:3.1.x %} **RHEL**:[ .rpm]({{ site.links.cloudsmith }}/public/gateway-{{ page.major_minor_version }}/rpm/el/8/x86_64/kong-enterprise-edition-{{page.versions.ee}}.rhel8.amd64.rpm){% endif_version %}
