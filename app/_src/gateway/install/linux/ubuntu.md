@@ -159,7 +159,7 @@ sudo apt install -y kong-enterprise-edition={{page.versions.ee}}
 {% endnavtab %}
 {% navtab Kong Gateway (OSS) %}
 ```bash
-apt install -y kong={{page.versions.ce}}
+sudo apt install -y kong={{page.versions.ce}}
 ```
 {% endnavtab %}
 {% endnavtabs_ee %}

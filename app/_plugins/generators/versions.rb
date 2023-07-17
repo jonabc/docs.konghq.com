@@ -174,6 +174,10 @@ module Jekyll
 
           page.data['release'] = current['release']
           page.data['version'] = current['version']
+          page.data['versions'] = {
+            'ce' => current['ce-version'],
+            'ee' => current['ee-version']
+          }
         end
 
         # Add a `major_minor_version` property which is used for cloudsmith install pages
