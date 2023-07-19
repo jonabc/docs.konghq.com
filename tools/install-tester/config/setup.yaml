@@ -1,0 +1,14 @@
+ubuntu:
+  image: ubuntu
+  setup:
+    - apt-get update -y
+    - apt-get install -y curl gpg sudo lsb-release
+    - useradd tester -m -p password
+    - usermod -aG sudo tester
+    - "echo 'ALL            ALL = (ALL) NOPASSWD: ALL' > /etc/sudoers.d/tester"
+rhel:
+  image: registry.access.redhat.com/ubi8/ubi-init
+  setup:
+    - yum install -y curl gpg sudo
+    - useradd tester -m -p password
+    - "echo 'ALL            ALL = (ALL) NOPASSWD: ALL' > /etc/sudoers.d/tester"
