@@ -12,3 +12,9 @@ rhel:
     - yum install -y curl gpg sudo
     - useradd tester -m -p password
     - "echo 'ALL            ALL = (ALL) NOPASSWD: ALL' > /etc/sudoers.d/tester"
+amazon-linux:
+  image: "amazonlinux:2"
+  setup:
+    - yum install -y curl gpg sudo shadow-utils util-linux
+    - useradd tester -m -p password
+    - "echo 'ALL            ALL = (ALL) NOPASSWD: ALL' > /etc/sudoers.d/tester"

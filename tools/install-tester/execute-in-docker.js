@@ -11,10 +11,11 @@ module.exports = async function (distro, steps) {
 
   const docker = new Dockerode({ socketPath: "/var/run/docker.sock" });
 
-  const setup = config[distro].setup.join(" && ");
+  let setup = config[distro].setup;
   if (!setup) {
     throw new Error(`No setup found for ${distro}`);
   }
+  setup = setup.join(" && ");
 
   const asUser = `su tester -c 'cd ~ && ${steps
     .join(" && ")

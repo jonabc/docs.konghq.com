@@ -2,6 +2,7 @@
   distros:
     - ubuntu
     - rhel
+    - amazon-linux
   outputs:
     enterprise: "Kong Enterprise {{ version }}"
     oss: "{{ version }}"
@@ -9,6 +10,7 @@
   distros:
     - ubuntu
     - rhel
+    - amazon-linux
   outputs:
     enterprise: "Kong Enterprise {{ version }}"
     oss: "{{ version }}"
