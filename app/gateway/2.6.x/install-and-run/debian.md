@@ -84,7 +84,7 @@ Install the APT repository from the command line.
 1. Download the Kong APT repository:
     ```bash
     curl -1sLf "{{ site.links.cloudsmith }}/public/gateway-legacy/gpg.{{ gpg_key }}.key" |  gpg --dearmor | sudo tee -a /usr/share/keyrings/kong-gateway-legacy-archive-keyring.gpg > /dev/null
-    curl -1sLf "{{ site.links.cloudsmith }}/public/gateway-legacy/config.deb.txt?distro=debian&codename=$(lsb_release -sc)" | sudo tee /etc/apt/sources.list.d/kong-gateway-legacy.list > /dev/null
+    curl -1sLf "{{ site.links.cloudsmith }}/public/gateway-legacy/config.deb.txt?distro=debian&codename=jessie" | sudo tee /etc/apt/sources.list.d/kong-gateway-legacy.list > /dev/null
     ```
 2. Update the repository:
     ```bash

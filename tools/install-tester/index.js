@@ -80,7 +80,7 @@ async function runSingleJob(distro, job, installOption, conditions) {
     console.log(
       `🤔 ${summary} Expected failure: ${expectedFailures[ref]}. Not executing.`,
     );
-    if (process.env.EXPECTED_FAILURES_EXIT_CODE) {
+    if (process.env.EXPECTED_FAILURES_EXIT_CODE && process.exitCode === 0) {
       process.exitCode = process.env.EXPECTED_FAILURES_EXIT_CODE;
     }
     return;

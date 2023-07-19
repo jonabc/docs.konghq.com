@@ -39,7 +39,7 @@ curl -Lo kong-enterprise-edition-{{page.versions.ee}}.all.deb "{{ site.links.clo
 {% endnavtab %}
 {% navtab Kong Gateway (OSS) %}
 ```bash
-curl -Lo kong-{{page.versions.ce}}.all.deb "{{ site.links.cloudsmith }}/public/gateway-28/deb/ubuntu/pool/jammy/main/k/ko/kong_{{page.versions.ce}}/kong_{{page.versions.ce}}_amd64.deb"
+curl -Lo kong-{{page.versions.ce}}.amd64.deb "{{ site.links.cloudsmith }}/public/gateway-28/deb/ubuntu/pool/jammy/main/k/ko/kong_{{page.versions.ce}}/kong_{{page.versions.ce}}_amd64.deb"
  ```
 {% endnavtab %}
 {% endnavtabs_ee %}
