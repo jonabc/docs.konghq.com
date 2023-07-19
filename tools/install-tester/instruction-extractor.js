@@ -57,6 +57,13 @@ async function extract(url, os) {
           blocks.push($(c).text().trim());
         });
 
+      if (blocks.join("\n").includes("download.konghq.com")) {
+        console.error(
+          "ERROR: download.konghq.com found in instructions on " + url,
+        );
+        process.exit(1);
+      }
+
       output.push({
         package: typeToPackage[package],
         type,
