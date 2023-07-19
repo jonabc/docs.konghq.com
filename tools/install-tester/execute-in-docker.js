@@ -24,11 +24,17 @@ module.exports = async function (distro, steps) {
 
   // Pull the image
   await new Promise((resolve, reject) => {
-    docker.pull(config[distro].image, function (err, stream) {
-      if (err) {
-        return reject(err);
-      }
-    });
+    docker.pull(
+      config[distro].image,
+      { platform: "linux/amd64" },
+      async function (err, stream) {
+        if (err) {
+          return reject(err);
+        }
+
+        return resolve();
+      },
+    );
   });
 
   return new Promise((resolve, reject) => {
