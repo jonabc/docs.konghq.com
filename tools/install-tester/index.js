@@ -1,4 +1,6 @@
-process.env.BASE_URL = "http://localhost:3000";
+if (!process.env.BASE_URL){
+  process.env.BASE_URL = "http://localhost:3000";
+}
 
 // Parse a format like [2.6.x/rhel/oss/yum-repository] into
 // individual conditions
