@@ -4,6 +4,7 @@ on: push
 jobs:
   install-instructions:
     strategy:
+      fail-fast: false
       matrix:
         method: [package, repository]
         package: [oss, enterprise]
@@ -60,6 +61,8 @@ jobs:
           netlify dev & wait-on http://localhost:8888
 
       - name: Run Install tests
+        env:
+          BASE_URL: http://localhost:8888
         run: |
           cd tools/install-tester
           npm ci
