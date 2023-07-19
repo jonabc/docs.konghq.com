@@ -1,5 +1,5 @@
 ubuntu:
-  image: ubuntu
+  image: "ubuntu:jammy"
   setup:
     - apt-get update -y
     - apt-get install -y curl gpg sudo lsb-release
@@ -7,7 +7,7 @@ ubuntu:
     - usermod -aG sudo tester
     - "echo 'ALL            ALL = (ALL) NOPASSWD: ALL' > /etc/sudoers.d/tester"
 rhel:
-  image: registry.access.redhat.com/ubi8/ubi-init
+  image: "registry.access.redhat.com/ubi8/ubi-init:latest"
   setup:
     - yum install -y curl gpg sudo
     - useradd tester -m -p password

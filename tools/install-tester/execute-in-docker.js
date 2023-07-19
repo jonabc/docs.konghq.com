@@ -1,4 +1,4 @@
-module.exports = async function (distro, steps) {
+module.exports = function (distro, steps) {
   const Dockerode = require("dockerode");
   const streams = require("memory-streams");
   const fs = require("fs");
@@ -23,7 +23,7 @@ module.exports = async function (distro, steps) {
   const completeString = `${setup} && ${asUser}`;
 
   // Pull the image
-  await new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     docker.pull(
       config[distro].image,
       { platform: "linux/amd64" },
@@ -32,35 +32,35 @@ module.exports = async function (distro, steps) {
           return reject(err);
         }
 
-        return resolve();
-      },
-    );
-  });
-
-  return new Promise((resolve, reject) => {
-    docker.run(
-      config[distro].image,
-      ["bash", "-c", completeString],
-      [stdout, stderr],
-      { Tty: false, HostConfig: { AutoRemove: true }, platform: "linux/amd64" },
-      function (err, data, container) {
-        if (err) {
-          return reject(err);
-        }
-        const lines = stdout
-          .toString()
-          .split("\n")
-          .filter((l) => l);
-        const version = lines[lines.length - 1];
-        return resolve({
-          version,
-          stdout: stdout.toString(),
-          stderr: stderr.toString(),
-          jobConfig: {
-            image: config[distro].image,
-            commands: completeString,
+        docker.run(
+          config[distro].image,
+          ["bash", "-c", completeString],
+          [stdout, stderr],
+          {
+            Tty: false,
+            HostConfig: { AutoRemove: true },
+            platform: "linux/amd64",
           },
-        });
+          function (err, data, container) {
+            if (err) {
+              return reject(err);
+            }
+            const lines = stdout
+              .toString()
+              .split("\n")
+              .filter((l) => l);
+            const version = lines[lines.length - 1];
+            return resolve({
+              version,
+              stdout: stdout.toString(),
+              stderr: stderr.toString(),
+              jobConfig: {
+                image: config[distro].image,
+                commands: completeString,
+              },
+            });
+          },
+        );
       },
     );
   });
