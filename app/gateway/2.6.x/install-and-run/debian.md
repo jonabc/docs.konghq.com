@@ -31,12 +31,12 @@ Install {{site.base_gateway}} on Debian from the command line.
 {% navtabs_ee codeblock %}
 {% navtab Kong Gateway %}
 ```bash
-curl -Lo kong-enterprise-edition-{{page.versions.ee}}.all.deb "{{ site.links.cloudsmith }}/public/gateway-legacy/deb/debian/pool/jessie/main/k/ko/kong-enterprise-edition_{{page.versions.ee}}/kong-enterprise-edition_{{page.versions.ee}}_all.deb"
+curl -Lo kong-enterprise-edition-{{page.versions.ee}}.all.deb "{{ site.links.cloudsmith }}/public/gateway-legacy/deb/debian/pool/stretch/main/k/ko/kong-enterprise-edition_{{page.versions.ee}}/kong-enterprise-edition_{{page.versions.ee}}_all.deb"
 ```
 {% endnavtab %}
 {% navtab Kong Gateway (OSS) %}
 ```bash
-curl -Lo kong-{{page.versions.ce}}.amd64.deb "{{ site.links.cloudsmith }}/public/gateway-legacy/deb/debian/pool/jessie/main/k/ko/kong_{{page.versions.ce}}/kong_{{page.versions.ce}}_amd64.deb"
+curl -Lo kong-{{page.versions.ce}}.amd64.deb "{{ site.links.cloudsmith }}/public/gateway-legacy/deb/debian/pool/stretch/main/k/ko/kong_{{page.versions.ce}}/kong_{{page.versions.ce}}_amd64.deb"
 ```
 {% endnavtab %}
 {% endnavtabs_ee %}
@@ -55,7 +55,7 @@ sudo apt install -y ./kong-enterprise-edition-{{page.versions.ee}}.all.deb
 {% endnavtab %}
 {% navtab Kong Gateway (OSS) %}
 ```bash
-sudo apt install -y ./kong-enterprise-edition-{{page.versions.ce}}.amd64.deb
+sudo apt install -y ./kong-{{page.versions.ce}}.amd64.deb
 ```
 {% endnavtab %}
 {% endnavtabs_ee %}
@@ -79,10 +79,7 @@ sudo apt install -y ./kong-enterprise-edition-{{page.versions.ce}}.amd64.deb
 
 Install the APT repository from the command line.
  
-{% assign gpg_key = site.data.installation.gateway[page.major_minor_version].gpg_key  %}
-{% unless gpg_key %}
 {% assign gpg_key = site.data.installation.gateway.legacy.gpg_key  %}
-{% endunless %}
 
 1. Download the Kong APT repository:
     ```bash

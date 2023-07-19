@@ -6,6 +6,14 @@ ubuntu:
     - useradd tester -m -p password
     - usermod -aG sudo tester
     - "echo 'ALL            ALL = (ALL) NOPASSWD: ALL' > /etc/sudoers.d/tester"
+debian:
+  image: "debian:11"
+  setup:
+    - apt-get update -y
+    - apt-get install -y curl gpg sudo lsb-release
+    - useradd tester -m -p password
+    - usermod -aG sudo tester
+    - "echo 'ALL            ALL = (ALL) NOPASSWD: ALL' > /etc/sudoers.d/tester"
 rhel:
   image: "registry.access.redhat.com/ubi8/ubi-init:latest"
   setup:

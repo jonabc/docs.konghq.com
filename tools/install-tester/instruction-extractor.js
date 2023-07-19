@@ -65,6 +65,7 @@ async function extract(url, os) {
       //}
 
       output.push({
+        url,
         package: typeToPackage[package],
         type,
         blocks,

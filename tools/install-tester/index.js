@@ -32,6 +32,10 @@ const run = require("./execute-in-docker");
 
 let allStderr = "";
 
+const expectedFailures = yaml.load(
+  fs.readFileSync("./config/expected-failures.yaml", "utf8"),
+);
+
 (async function () {
   debug("Starting Install Tester");
   const config = loadConfig();
@@ -60,7 +64,8 @@ async function runSingleJob2(distro, job, installOption, conditions) {
 
 async function runSingleJob(distro, job, installOption, conditions) {
   const marker = `${installOption.package}@${job.version} via ${installOption.type}`;
-  const summary = `[${job.version}/${distro}/${installOption.package}/${installOption.type}]`;
+  const ref = `${job.version}/${distro}/${installOption.package}/${installOption.type}`;
+  const summary = `[${ref}]`;
 
   debug(`====== START ${marker} ======`);
 
@@ -68,6 +73,14 @@ async function runSingleJob(distro, job, installOption, conditions) {
     if (!process.env.IGNORE_SKIPS) {
       console.log(skip);
     }
+    return;
+  }
+
+  if (expectedFailures[ref]) {
+    console.log(
+      `🤔 ${summary} Expected failure: ${expectedFailures[ref]}. Not executing.`,
+    );
+    process.exitCode = 1;
     return;
   }
 
