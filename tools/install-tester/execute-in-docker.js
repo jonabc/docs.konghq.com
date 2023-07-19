@@ -1,4 +1,4 @@
-module.exports = function (distro, steps) {
+module.exports = async function (distro, steps) {
   const Dockerode = require("dockerode");
   const streams = require("memory-streams");
   const fs = require("fs");
@@ -21,6 +21,15 @@ module.exports = function (distro, steps) {
     .replace("\n", " && ")} && kong version'`;
 
   const completeString = `${setup} && ${asUser}`;
+
+  // Pull the image
+  await new Promise((resolve, reject) => {
+    docker.pull(config[distro].image, function (err, stream) {
+      if (err) {
+        return reject(err);
+      }
+    });
+  });
 
   return new Promise((resolve, reject) => {
     docker.run(
@@ -46,7 +55,7 @@ module.exports = function (distro, steps) {
             commands: completeString,
           },
         });
-      }
+      },
     );
   });
 };
