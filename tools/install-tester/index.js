@@ -1,4 +1,4 @@
-if (!process.env.BASE_URL){
+if (!process.env.BASE_URL) {
   process.env.BASE_URL = "http://localhost:3000";
 }
 
@@ -30,6 +30,8 @@ if (!fs.existsSync("./output")) {
 const { extractV2, extractV3 } = require("./instruction-extractor");
 const run = require("./execute-in-docker");
 
+let allStderr = "";
+
 (async function () {
   debug("Starting Install Tester");
   const config = loadConfig();
@@ -46,6 +48,8 @@ const run = require("./execute-in-docker");
       }
     }
   }
+
+  console.log("STDERR OUTPUT:\n" + allStderr);
 })();
 
 async function runSingleJob2(distro, job, installOption, conditions) {
@@ -91,7 +95,10 @@ async function runSingleJob(distro, job, installOption, conditions) {
     console.log(`❌ ${summary} Expected: ${expected}, Got: ${version}`);
     process.exitCode = 1;
 
+    allStderr += `\n\n------------------------------\n❌ ${summary}\n------------------------------\n${stderr}`;
+
     if (!process.env.CONTINUE_ON_ERROR) {
+      console.log(allStderr);
       process.exit(1);
     }
   } else {
