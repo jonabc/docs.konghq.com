@@ -89,6 +89,7 @@ async function runSingleJob(distro, job, installOption, conditions) {
 
   if (expected !== version) {
     console.log(`❌ ${summary} Expected: ${expected}, Got: ${version}`);
+    process.exitCode = 1;
 
     if (!process.env.CONTINUE_ON_ERROR) {
       process.exit(1);
