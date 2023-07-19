@@ -3,6 +3,8 @@ on: push
 
 jobs:
   install-instructions:
+    env:
+      BASE_URL: https://deploy-preview-5763--kongdocs.netlify.app
     strategy:
       fail-fast: false
       matrix:
@@ -23,6 +25,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: .ruby-version
+        if: contains(env.BASE_URL, 'localhost')
       - name: Ruby gem cache
         uses: actions/cache@v3
         with:
@@ -30,15 +33,18 @@ jobs:
           key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-gems-
-      - name: Bundle Setup
-        run: bundle config path ${{ github.workspace }}/vendor/bundle
+        if: contains(env.BASE_URL, 'localhost')
       - name: Bundle Install
-        run: bundle install --jobs 4 --retry 3
+        run: |
+          bundle config path ${{ github.workspace }}/vendor/bundle
+          bundle install --jobs 4 --retry 3
+        if: contains(env.BASE_URL, 'localhost')
 
-      # Configure Node to build assets
       - uses: actions/setup-node@v3
         with:
           node-version: "16"
+        if: contains(env.BASE_URL, 'localhost')
+
       - name: Cache node modules
         uses: actions/cache@v3
         env:
@@ -48,21 +54,22 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
+        if: contains(env.BASE_URL, 'localhost')
 
       # Build the Docs
       - name: Build Docs
         run: |
           npm ci
           ./node_modules/.bin/gulp build
+        if: contains(env.BASE_URL, 'localhost')
 
       - name: Run Server
         run: |
           npm install -g wait-on netlify-cli
           netlify dev & wait-on http://localhost:8888
+        if: contains(env.BASE_URL, 'localhost')
 
       - name: Run Install tests
-        env:
-          BASE_URL: http://localhost:8888
         run: |
           cd tools/install-tester
           npm ci
