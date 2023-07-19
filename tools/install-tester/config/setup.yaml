@@ -15,7 +15,7 @@ debian:
     - usermod -aG sudo tester
     - "echo 'ALL            ALL = (ALL) NOPASSWD: ALL' > /etc/sudoers.d/tester"
 rhel:
-  image: "registry.access.redhat.com/ubi8/ubi-init:latest"
+  image: "registry.access.redhat.com/ubi7/ubi-init:latest"
   setup:
     - yum install -y curl gpg sudo
     - useradd tester -m -p password

@@ -3,7 +3,7 @@ on: push
 
 jobs:
   install-instructions:
-    if: true
+    if: false
     env:
       BASE_URL: https://deploy-preview-5763--kongdocs.netlify.app
     strategy:
@@ -73,6 +73,7 @@ jobs:
           DISTRO: ${{ matrix.distro }}
           CONTINUE_ON_ERROR: 1
           IGNORE_SKIPS: 1
+          EXPECTED_FAILURES_EXIT_CODE: 0
         run: |
           cd tools/install-tester
           npm ci

@@ -27,7 +27,7 @@ Install {{site.base_gateway}} on RHEL from the command line.
 {% navtabs_ee codeblock %}
 {% navtab Kong Gateway %}
 ```bash
-curl -Lo kong-enterprise-edition-{{page.versions.ee}}.rpm $(rpm --eval {{ site.links.cloudsmith }}/public/gateway-legacy/rpm/el/%{rhel}/x86_64/kong-enterprise-edition-{{page.versions.ee}}.rhel%{rhel}.noarch.rpm)
+curl -Lo kong-enterprise-edition-{{page.versions.ee}}.rpm $(rpm --eval {{ site.links.cloudsmith }}/public/gateway-legacy/rpm/el/%{rhel}/noarch/kong-enterprise-edition-{{page.versions.ee}}.rhel%{rhel}.noarch.rpm)
 ```
 {% endnavtab %}
 {% navtab Kong Gateway (OSS) %}
