@@ -3,15 +3,13 @@ on: push
 
 jobs:
   install-instructions:
-    if: false
+    if: true
     env:
       BASE_URL: https://deploy-preview-5763--kongdocs.netlify.app
-    #strategy:
-    #  fail-fast: false
-    #  matrix:
-    #    method: [package, repository]
-    #    package: [oss, enterprise]
-    #    distro: [ubuntu, rhel]
+    strategy:
+      fail-fast: false
+      matrix:
+        distro: [ubuntu, rhel, amazon-linux, debian]
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
@@ -71,7 +69,11 @@ jobs:
         if: contains(env.BASE_URL, 'localhost')
 
       - name: Run Install tests
+        env:
+          DISTRO: ${{ matrix.distro }}
+          CONTINUE_ON_ERROR: 1
+          IGNORE_SKIPS: 1
         run: |
           cd tools/install-tester
           npm ci
-          CONTINUE_ON_ERROR=1 node index.js
+          node index.js
