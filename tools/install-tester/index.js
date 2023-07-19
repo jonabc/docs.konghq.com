@@ -64,7 +64,9 @@ async function runSingleJob2(distro, job, installOption, conditions) {
 
 async function runSingleJob(distro, job, installOption, conditions) {
   const marker = `${installOption.package}@${job.version} via ${installOption.type}`;
-  const ref = `${job.version}/${distro}/${installOption.package}/${installOption.type}`;
+  const ref = `${job.version}/${distro}/${
+    installOption.package
+  }/${installOption.type.replace(/\w+\-repository/, "repository")}`;
   const summary = `[${ref}]`;
 
   debug(`====== START ${marker} ======`);
