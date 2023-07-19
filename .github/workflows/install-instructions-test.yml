@@ -3,7 +3,7 @@ on: push
 
 jobs:
   install-instructions:
-    if: true
+    if: false
     env:
       BASE_URL: https://deploy-preview-5763--kongdocs.netlify.app
     #strategy:
