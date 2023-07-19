@@ -1,4 +1,7 @@
-"2.8.x/debian/enterprise/package": "Missing Cloudsmith package"
+"2.8.x/ubuntu/enterprise/package": "Cloudsmith package contains OS version"
+"2.8.x/debian/enterprise/package": "Cloudsmith package contains OS version"
+"2.8.x/ubuntu/oss/apt-repository": "Missing Cloudsmith package (ubuntu/jammy)"
+"2.8.x/ubuntu/enterprise/apt-repository": "Missing Cloudsmith package (ubuntu/jammy)"
 "3.0.x/rhel/oss/package": "Cloudsmith package contains OS version"
 "3.0.x/rhel/enterprise/package": "Cloudsmith package contains OS version"
 "3.1.x/rhel/oss/package": "Cloudsmith package contains OS version"

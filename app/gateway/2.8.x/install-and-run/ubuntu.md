@@ -34,12 +34,12 @@ Install {{site.base_gateway}} on Ubuntu from the command line.
 {% navtabs_ee codeblock %}
 {% navtab Kong Gateway %}
 ```bash
-curl -Lo kong-enterprise-edition-{{page.versions.ee}}.all.deb "{{ site.links.cloudsmith }}/public/gateway-legacy/deb/ubuntu/pool/xenial/main/k/ko/kong-enterprise-edition_{{page.versions.ee}}/kong-enterprise-edition_{{page.versions.ee}}_all.deb"
+curl -Lo kong-enterprise-edition-{{page.versions.ee}}.all.deb "{{ site.links.cloudsmith }}/public/gateway-28/deb/ubuntu/pool/jammy/main/k/ko/kong-enterprise-edition_{{page.versions.ee}}/kong-enterprise-edition_{{page.versions.ee}}_all.deb"
 ```
 {% endnavtab %}
 {% navtab Kong Gateway (OSS) %}
 ```bash
-curl -Lo kong-{{page.versions.ce}}.all.deb "{{ site.links.cloudsmith }}/public/gateway-legacy/deb/ubuntu/pool/xenial/main/k/ko/kong_{{page.versions.ce}}/kong_{{page.versions.ce}}_amd64.deb"
+curl -Lo kong-{{page.versions.ce}}.all.deb "{{ site.links.cloudsmith }}/public/gateway-28/deb/ubuntu/pool/jammy/main/k/ko/kong_{{page.versions.ce}}/kong_{{page.versions.ce}}_amd64.deb"
  ```
 {% endnavtab %}
 {% endnavtabs_ee %}
