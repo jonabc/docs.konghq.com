@@ -30,7 +30,7 @@ const run = require("./execute-in-docker");
 
 (async function () {
   debug("Starting Install Tester");
-  const config = yaml.load(fs.readFileSync("./config/jobs.yaml", "utf8"));
+  const config = loadConfig();
   for (let job of config) {
     for (let distro of job.distros) {
       let installOptions;
@@ -102,7 +102,7 @@ function shouldSkip(conditions, job, distro, installOption, summary) {
   if (conditions.version.length && !conditions.version.includes(job.version)) {
     return `⌛ ${summary} skipped | Version ${
       job.version
-    }  not in [${conditions.version.join(", ")}]`;
+    } not in [${conditions.version.join(", ")}]`;
   }
 
   if (conditions.distro.length && !conditions.distro.includes(distro)) {
@@ -111,13 +111,15 @@ function shouldSkip(conditions, job, distro, installOption, summary) {
     )}]`;
   }
 
-  if (
-    conditions.method.length &&
-    !conditions.method.includes(installOption.type)
-  ) {
-    return `⌛ ${summary} skipped | Install method ${
-      installOption.type
-    } not in [${conditions.method.join(", ")}]`;
+  let genericType = installOption.type;
+  if (["yum-repository", "apt-repository"].includes(genericType)) {
+    genericType = "repository";
+  }
+
+  if (conditions.method.length && !conditions.method.includes(genericType)) {
+    return `⌛ ${summary} skipped | Install method ${genericType} not in [${conditions.method.join(
+      ", ",
+    )}]`;
   }
 
   if (
@@ -130,4 +132,38 @@ function shouldSkip(conditions, job, distro, installOption, summary) {
   }
 
   return false;
+}
+
+function loadConfig() {
+  // Load kong_versions file to get the list of versions to test
+  const allVersions = yaml.load(
+    fs.readFileSync(__dirname + "/../../app/_data/kong_versions.yml", "utf8"),
+  );
+
+  const gatewayVersions = allVersions.filter((v) => v.edition === "gateway");
+
+  const jobConfig = yaml.load(fs.readFileSync("./config/jobs.yaml", "utf8"));
+
+  const jobs = [];
+  for (const v of gatewayVersions) {
+    for (let j of jobConfig) {
+      if (new RegExp(j.match).test(v.release)) {
+        outputs = {
+          enterprise: j.outputs.enterprise.replace(
+            "{{ version }}",
+            v["ee-version"],
+          ),
+          oss: j.outputs.oss.replace("{{ version }}", v["ce-version"]),
+        };
+        jobs.push({
+          version: v.release,
+          distros: j.distros,
+          outputs,
+        });
+        break;
+      }
+    }
+  }
+
+  return jobs;
 }

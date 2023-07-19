@@ -1,42 +1,14 @@
-- version: 3.3.x
+- match: "3\\..*"
   distros:
     - ubuntu
     - rhel
   outputs:
-    enterprise: "Kong Enterprise 3.3.1.0"
-    oss: "3.3.0"
-- version: 3.2.x
+    enterprise: "Kong Enterprise {{ version }}"
+    oss: "{{ version }}"
+- match: "2\\..*"
   distros:
     - ubuntu
     - rhel
   outputs:
-    enterprise: "Kong Enterprise 3.2.2.2"
-    oss: "3.2.2"
-- version: 3.1.x
-  distros:
-    - ubuntu
-    - rhel
-  outputs:
-    enterprise: "Kong Enterprise 3.1.1.4"
-    oss: "3.1.1"
-- version: 3.0.x
-  distros:
-    - ubuntu
-    - rhel
-  outputs:
-    enterprise: "Kong Enterprise 3.0.2.0"
-    oss: "3.0.2"
-- version: 2.7.x
-  distros:
-    - ubuntu
-    - rhel
-  outputs:
-    enterprise: "Kong Enterprise 2.7.2.0"
-    oss: "2.7.2"
-- version: 2.6.x
-  distros:
-    - ubuntu
-    - rhel
-  outputs:
-    enterprise: "Kong Enterprise 2.6.1.0"
-    oss: "2.6.1"
+    enterprise: "Kong Enterprise {{ version }}"
+    oss: "{{ version }}"

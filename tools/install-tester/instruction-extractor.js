@@ -10,14 +10,14 @@ const typeToPackage = {
 async function extractV3(version, os) {
   return extract(
     `${process.env.BASE_URL}/gateway/${version}/install/linux/${os}`,
-    os
+    os,
   );
 }
 
 async function extractV2(version, os) {
   return extract(
     `${process.env.BASE_URL}/gateway/${version}/install-and-run/${os}`,
-    os
+    os,
   );
 }
 
@@ -50,12 +50,13 @@ async function extract(url, os) {
         .find(
           "li > .language-bash pre code, div[data-panel='" +
             package +
-            "'] pre code"
+            "'] pre code",
         )
         .toArray()
         .forEach((c) => {
           blocks.push($(c).text().trim());
         });
+
       output.push({
         package: typeToPackage[package],
         type,

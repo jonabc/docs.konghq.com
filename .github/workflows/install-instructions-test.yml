@@ -1,0 +1,66 @@
+name: Install Instructions
+on: push
+
+jobs:
+  install-instructions:
+    strategy:
+      matrix:
+        method: [package, repository]
+        package: [oss, enterprise]
+        distro: [ubuntu, rhel]
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      # Increase number of watchers to fix tests
+      - run: sudo sysctl -w fs.inotify.max_user_watches=524288
+      - uses: actions/checkout@v3
+        with:
+          submodules: "recursive"
+
+      # Configure Ruby to build Jekyll site
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+      - name: Ruby gem cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ github.workspace }}/vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+      - name: Bundle Setup
+        run: bundle config path ${{ github.workspace }}/vendor/bundle
+      - name: Bundle Install
+        run: bundle install --jobs 4 --retry 3
+
+      # Configure Node to build assets
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+      - name: Cache node modules
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      # Build the Docs
+      - name: Build Docs
+        run: |
+          npm ci
+          ./node_modules/.bin/gulp build
+
+      - name: Run Server
+        run: |
+          npm install -g wait-on netlify-cli
+          netlify dev & wait-on http://localhost:8888
+
+      - name: Run Install tests
+        run: |
+          cd tools/install-tester
+          npm ci
+          METHOD=${{ matrix.method }} PACKAGE=${{ matrix.package }} DISTRO=${{ matrix.distro }} IGNORE_SKIPS=1 CONTINUE_ON_ERROR=1 node index.js
